@@ -1,0 +1,8 @@
+langchain
+langchain_community
+chromadb
+tiktoken
+sentence-transformers
+pypdf
+textloader
+datetime

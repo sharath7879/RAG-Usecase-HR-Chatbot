@@ -1,0 +1,7 @@
+langchain
+langchain_community
+ctransformers
+streamlit
+chromadb
+watchdog
+sentence-transformers

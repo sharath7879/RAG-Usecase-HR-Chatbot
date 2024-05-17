@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rag-deployment
+  namespace: llm-demo
+  labels:
+    app: rag
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rag
+  template:
+    metadata:
+      labels:
+        app: rag
+      annotations:
+        kubectl.kubernetes.io/default-container: "streamlit"
+    spec:
+      containers:
+        - name: streamlit
+          image: docker.io/sharath7879/frontend:latest
+          ports:
+            - containerPort: 8501
+          volumeMounts:
+            - mountPath: /frontend/db_files
+              name: chroma-data
+              subPath: db_files  
+          resources:
+            requests:
+              cpu: "16"
+              memory: "16Gi"
+            limits:
+              cpu: "16"
+              memory: "16Gi"    
+        - name: flask
+          image: docker.io/sharath7879/flask-receiver:latest
+          ports:
+            - containerPort: 5000
+          volumeMounts:
+            - mountPath: /app/downloads
+              name: flask-data
+              subPath: downloads  
+          resources:
+            requests:
+              cpu: "2"
+              memory: "2Gi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+        - name: chromadb
+          image: docker.io/sharath7879/chroma-vectordb:latest
+          volumeMounts:
+            - mountPath: /chroma/downloads
+              name: flask-data
+              subPath: downloads
+            - mountPath: /chroma/db_files
+              name: chroma-data
+              subPath: db_files      
+          resources:
+            requests:
+              cpu: "4"
+              memory: "8Gi"
+            limits:
+              cpu: "4"
+              memory: "8Gi"        
+      volumes:
+       - name: flask-data
+         emptyDir: {}
+       - name: chroma-data
+         emptyDir: {}  
+
+              
+          
