@@ -1,4 +1,6 @@
-End-to-end RAG LLM AI app for HR Chatbot Usecase
+##End-to-end RAG LLM AI app for HR Chatbot Usecase
+
+![alt text](F5_US_holiday_schedule.png)
 
 To create this app, there are mainly three components.
      1. Flask: It is simple app listent on endpoint, 'upload', accepts HTTP POST requests and save the files to folder, 'Downloads'
